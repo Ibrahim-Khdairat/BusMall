@@ -29,6 +29,31 @@ function BusMall(busName) {
 
 
 
+function settingProducts() {
+    let data = JSON.stringify(Bus);
+    localStorage.setItem('BusMall', data);
+    let savedAttempt= JSON.stringify(attempts);
+    localStorage.setItem('Attempts',savedAttempt);
+
+}
+
+
+
+function gettingProducts() {
+    let stringObject = localStorage.getItem('BusMall');
+    let normalObject = JSON.parse(stringObject);
+    if (normalObject !== null) {
+        Bus = normalObject;
+    }
+    
+    let returnedAttemps = localStorage.getItem('Attempts');
+    let rAttempts=JSON.parse(returnedAttemps);
+    if (rAttempts !== null) {
+        attempts = rAttempts;
+    }
+    
+
+}
 
 
 for (let i = 0; i < busImages.length; i++) {
@@ -113,6 +138,8 @@ function handelClicks(event) {
             Bus[rightImgIndex].clicks++;
         }
         renderImages();
+        settingProducts();
+
     } else {
         let buttonEl=document.getElementById('button');
         // buttonEl=document.addEventListener('click', viewResult);
@@ -125,8 +152,10 @@ function handelClicks(event) {
         middleImgEl.removeEventListener('click', handelClicks);
         rightImgEl.removeEventListener('click', handelClicks);
 
-      
+        // settingProducts();
+
     }
+
 }
 
 
@@ -146,6 +175,7 @@ function viewResult()
         }
         chartRender();
         buttonEl.disabled=true;
+        localStorage.removeItem('Attempts');
 
 }
 
@@ -196,3 +226,7 @@ let myChart = new Chart(chartEl, {
     }
 });
 }
+
+
+
+gettingProducts();
